@@ -251,16 +251,16 @@ const config = {
     score = 0;
     
     // Score background panel
-    scorePanel = this.add.rectangle(75, 35, 120, 50, 0x2d2d44, 0.8);
+    scorePanel = this.add.rectangle(70, 35, 120, 50, 0x2d2d44, 0.8);
     scorePanel.setStrokeStyle(3, 0xff4d6d);
     scorePanel.setDepth(10);
     
-    scoreIcon = this.add.text(30, 20, '💖', {
+    scoreIcon = this.add.text(20, 18, '💖', {
       fontSize: '28px'
     }).setDepth(11);
     
-    scoreText = this.add.text(65, 20, '0', {
-      fontSize: '28px',
+    scoreText = this.add.text(55, 23, '0', {
+      fontSize: '26px',
       fill: '#ffb3c6',
       fontStyle: 'bold',
       stroke: '#ff1744',
@@ -449,39 +449,56 @@ const config = {
     if (heart) {
       particles.emitParticleAt(heart.x, heart.y, 30);
       heart.destroy();
+      heart = null;
     }
     
-    pipes.children.entries.forEach(p => p.destroy());
-    scoreZones.children.entries.forEach(z => z.destroy());
-    if (scoreText) scoreText.destroy();
-    if (scoreIcon) scoreIcon.destroy();
-    if (scorePanel) scorePanel.destroy();
+    // Clean up game objects
+    pipes.children.entries.forEach(p => {
+      if (p) p.destroy();
+    });
+    scoreZones.children.entries.forEach(z => {
+      if (z) z.destroy();
+    });
+    
+    // Destroy score display elements
+    if (scoreText) {
+      scoreText.destroy();
+      scoreText = null;
+    }
+    if (scoreIcon) {
+      scoreIcon.destroy();
+      scoreIcon = null;
+    }
+    if (scorePanel) {
+      scorePanel.destroy();
+      scorePanel = null;
+    }
   
     // Dark overlay
     const overlay = this.add.rectangle(200, 300, 400, 600, 0x000000, 0.7);
     
-    // Decorative panel - larger size
+    // Decorative panel
     const panel = this.add.graphics();
     panel.fillStyle(0x2d2d44, 0.95);
-    panel.fillRoundedRect(20, 100, 360, 400, 25);
-    panel.lineStyle(5, 0xff4d6d, 1);
-    panel.strokeRoundedRect(20, 100, 360, 400, 25);
+    panel.fillRoundedRect(50, 150, 300, 320, 20);
+    panel.lineStyle(4, 0xff4d6d, 1);
+    panel.strokeRoundedRect(50, 150, 300, 320, 20);
   
     // Final score
-    this.add.text(200, 180, 'Your final score:', {
-      fontSize: '26px',
+    this.add.text(200, 200, 'Your final score:', {
+      fontSize: '22px',
       fill: '#ffb3c6',
       fontStyle: 'italic'
     }).setOrigin(0.5);
     
-    const finalScore = this.add.text(200, 230, score.toString(), {
-      fontSize: '64px',
+    const finalScore = this.add.text(200, 240, score.toString(), {
+      fontSize: '48px',
       fill: '#ff4d6d',
       fontStyle: 'bold',
       stroke: '#ff1744',
-      strokeThickness: 4
+      strokeThickness: 3
     }).setOrigin(0.5);
-    finalScore.setShadow(0, 0, '#ff4d6d', 20, true, true);
+    finalScore.setShadow(0, 0, '#ff4d6d', 15, true, true);
     
     this.tweens.add({
       targets: finalScore,
@@ -491,19 +508,19 @@ const config = {
     });
   
     // Valentine message
-    const valentineMsg = this.add.text(200, 320, '💘 You are now my Valentine! 💘', {
-      fontSize: '24px',
+    const valentineMsg = this.add.text(200, 300, '💘 You are now my Valentine! 💘', {
+      fontSize: '20px',
       fill: '#ffb3c6',
       fontStyle: 'bold',
       align: 'center',
       stroke: '#ff1744',
-      strokeThickness: 2
+      strokeThickness: 1
     }).setOrigin(0.5);
-    valentineMsg.setShadow(2, 2, '#000000', 6, true, true);
+    valentineMsg.setShadow(2, 2, '#000000', 5, true, true);
   
     // Large pulsing heart
-    let finalHeart = this.add.text(200, 400, '❤️', {
-      fontSize: '96px'
+    let finalHeart = this.add.text(200, 370, '❤️', {
+      fontSize: '72px'
     }).setOrigin(0.5);
     
     this.tweens.add({
@@ -548,8 +565,8 @@ const config = {
     }
   
     // Restart instruction
-    const restartText = this.add.text(200, 480, 'Refresh to play again', {
-      fontSize: '18px',
+    const restartText = this.add.text(200, 440, 'Refresh to play again', {
+      fontSize: '16px',
       fill: '#bbbbbb',
       fontStyle: 'italic'
     }).setOrigin(0.5);
